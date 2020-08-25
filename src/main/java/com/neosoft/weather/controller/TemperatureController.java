@@ -8,10 +8,7 @@ import com.neosoft.weather.responseModel.TinyWeatherResponse;
 import com.neosoft.weather.service.TemperatureAvgService;
 import com.neosoft.weather.validation.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,12 +32,15 @@ public class TemperatureController {
      * also user can give state code and country code.
      * As User Response contain average of next three day temperature and humidity
      * with Api response time , description and Http status code.
-     * @param workInfo
      * @return
      */
-    @PostMapping("/avgTH")
-    public ResponseEntity<TinyWeatherResponse> avgTempAndHumidity(@RequestBody WorkInfo workInfo){
+    @GetMapping("/avgTH/{cityName}/{startTime}/{endTime}")
+    public ResponseEntity<TinyWeatherResponse> avgTempAndHumidity(@PathVariable("cityName") String city , @PathVariable("startTime") String startTime , @PathVariable("endTime") String endTime ){
         long apiCallTime = System.currentTimeMillis();
+        WorkInfo workInfo = new WorkInfo();
+        workInfo.setCity(city);
+        workInfo.setStartTime(startTime);
+        workInfo.setEndTime(endTime);
         ResponseEntity<TinyWeatherResponse> responseEntity = null;
         try {
             if(RequestBodyValidation.validator(workInfo)){
