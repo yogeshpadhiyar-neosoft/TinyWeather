@@ -5,8 +5,8 @@ import com.neosoft.weather.exception.CustomException;
 import com.neosoft.weather.requestModel.WorkInfo;
 import com.neosoft.weather.responseModel.AvgTempAndHumidity;
 import com.neosoft.weather.responseModel.TinyWeatherResponse;
-import com.neosoft.weather.service.TemperatureAvgServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.neosoft.weather.service.TemperatureAvgService;
+import com.neosoft.weather.validation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,12 +21,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/TinyWeather")
-public class TempratureController extends RequestBodyValidation {
-    private final TemperatureAvgServiceImpl tempratureAvgServiceImpl;
+public class TemperatureController {
+    private final TemperatureAvgService temperatureAvgService;
 
-    @Autowired
-    public TempratureController(TemperatureAvgServiceImpl tempratureAvgServiceImpl) {
-        this.tempratureAvgServiceImpl = tempratureAvgServiceImpl;
+    public TemperatureController(TemperatureAvgService temperatureAvgService) {
+        this.temperatureAvgService = temperatureAvgService;
     }
 
 
@@ -40,22 +39,22 @@ public class TempratureController extends RequestBodyValidation {
      * @return
      */
     @PostMapping("/avgTH")
-    public ResponseEntity<Object> avgTempAndHumidity(@RequestBody WorkInfo workInfo){
+    public ResponseEntity<TinyWeatherResponse> avgTempAndHumidity(@RequestBody WorkInfo workInfo){
         long apiCallTime = System.currentTimeMillis();
-        ResponseEntity<Object> responseEntity = null;
+        ResponseEntity<TinyWeatherResponse> responseEntity = null;
         try {
-            if(validator(workInfo)){
-                List<AvgTempAndHumidity> avgTempAndHumidityList = tempratureAvgServiceImpl.fetchAvgTempAndHM(workInfo);
+            if(RequestBodyValidation.validator(workInfo)){
+                List<AvgTempAndHumidity> avgTempAndHumidityList = temperatureAvgService.fetchAvgTempAndHM(workInfo);
                 TinyWeatherResponse tinyWeatherResponse = new TinyWeatherResponse();
                 tinyWeatherResponse.setAvgTempAndHumidityList(avgTempAndHumidityList);
                 tinyWeatherResponse.setDescription(AppMessage.DESCRIPTION);
 
                 long responseTime = (System.currentTimeMillis()-apiCallTime);
                 tinyWeatherResponse.setResponseTime(responseTime);
-                responseEntity = responseBuilder(tinyWeatherResponse);
+                responseEntity = RequestBodyValidation.responseBuilder(tinyWeatherResponse);
             }
         }catch (CustomException e){
-            responseEntity = responseError(e);
+            responseEntity = RequestBodyValidation.responseError(e);
         }
         return responseEntity;
     }

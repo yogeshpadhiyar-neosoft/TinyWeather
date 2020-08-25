@@ -1,4 +1,4 @@
-package com.neosoft.weather.controller;
+package com.neosoft.weather.validation;
 
 import com.neosoft.weather.appConstant.AppMessage;
 import com.neosoft.weather.appConstant.Regex;
@@ -16,14 +16,14 @@ import java.util.List;
  *  Payload validation
  */
 
-public abstract class RequestBodyValidation {
+public class RequestBodyValidation {
 
     /**
      * Check all validation of payload @WorkInfo
      * @param workInfo
      * @return
      */
-    protected  boolean validator(WorkInfo workInfo){
+    public static boolean validator(WorkInfo workInfo){
 
         List<String> errors = new ArrayList<>();
         if(!nullValidator(workInfo)){
@@ -51,7 +51,7 @@ public abstract class RequestBodyValidation {
      * @param workInfo
      * @return
      */
-    protected  boolean nullValidator(WorkInfo workInfo){
+    protected static boolean nullValidator(WorkInfo workInfo){
         return  workInfo.getCity()!=null &&
                 workInfo.getStartTime()!=null &&
                 workInfo.getEndTime()!=null;
@@ -63,7 +63,7 @@ public abstract class RequestBodyValidation {
      * @param time
      * @return
      */
-    protected boolean timeValidator(String time){
+    protected static boolean timeValidator(String time){
         return time.matches(Regex.TIME_VALID);
     }
 
@@ -85,22 +85,22 @@ public abstract class RequestBodyValidation {
      * @param tinyWeatherResponse
      * @return
      */
-    protected ResponseEntity<Object> responseBuilder(TinyWeatherResponse tinyWeatherResponse){
+    public static ResponseEntity<TinyWeatherResponse> responseBuilder(TinyWeatherResponse tinyWeatherResponse){
         tinyWeatherResponse.setCode(200);
         tinyWeatherResponse.setMessage(AppMessage.SUCCESS);
         return new ResponseEntity<>(tinyWeatherResponse , HttpStatus.OK);
     }
 
     /**
-     * Generatic response for error
+     * Generic response for error
      * @param e
      * @return
      */
-    protected ResponseEntity<Object> responseError(CustomException e){
+    public static ResponseEntity<TinyWeatherResponse> responseError(CustomException e){
         TinyWeatherResponse tinyWeatherResponse = new TinyWeatherResponse();
         tinyWeatherResponse.setCode(400);
         tinyWeatherResponse.setMessage(AppMessage.FAIL);
         tinyWeatherResponse.setDescription(e.getErrors().toString());
-        return new ResponseEntity<>(e.getErrors(),e.getHttpStatus());
+        return new ResponseEntity<>(tinyWeatherResponse,e.getHttpStatus());
     }
 }
