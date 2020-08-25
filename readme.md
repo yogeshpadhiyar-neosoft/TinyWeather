@@ -1,6 +1,6 @@
-###Tiny Weather Bulletin
+### Tiny Weather Bulletin
 
-####Pre-Requesities
+#### Pre-Requesities
 
 -> Java 8+
 
@@ -10,7 +10,8 @@
 
 -> PostMan
 
-####About 
+#### About 
+
 The Tiny weather bulletin that will be used by employees to check the weather conditions in the cities where other teammates work. This service must use the OpenWeather API (​ https://openweathermap.org/api​ ) to retrieve the weather forecast.
 Given a city with specific work hour that respond next three day average temperature and humidity on specific working hour and non-working hour speratily.
 
@@ -20,6 +21,7 @@ The application contains following Rest API
 
 URL to get data of average temperature and humidity:
     **[Get]http://localhost:8080/TinyWeather/avgTH/{cityName}/{startTime}/{endTime}**
+    
     
 It takes as an input city name and will return the weather forecast that is average temperature and humidity for inside and outside working hours for next three days by using the city name and start time and end time for working hours provided.
 
