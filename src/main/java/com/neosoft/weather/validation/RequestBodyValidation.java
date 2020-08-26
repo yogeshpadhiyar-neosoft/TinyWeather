@@ -100,7 +100,7 @@ public class RequestBodyValidation {
         TinyWeatherResponse tinyWeatherResponse = new TinyWeatherResponse();
         tinyWeatherResponse.setCode(400);
         tinyWeatherResponse.setMessage(AppMessage.FAIL);
-        tinyWeatherResponse.setDescription(e.getErrors().toString());
+        tinyWeatherResponse.setDescription(AppMessage.FAIL_DESCRIPTION+e.getErrors().toString());
         return new ResponseEntity<>(tinyWeatherResponse,e.getHttpStatus());
     }
 }
