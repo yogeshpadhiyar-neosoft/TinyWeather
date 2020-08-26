@@ -98,7 +98,7 @@ public class RequestBodyValidation {
      */
     public static ResponseEntity<TinyWeatherResponse> responseError(CustomException e){
         TinyWeatherResponse tinyWeatherResponse = new TinyWeatherResponse();
-        tinyWeatherResponse.setCode(400);
+        tinyWeatherResponse.setCode(Integer.parseInt(String.valueOf(e.getHttpStatus())));
         tinyWeatherResponse.setMessage(AppMessage.FAIL);
         tinyWeatherResponse.setDescription(AppMessage.FAIL_DESCRIPTION+e.getErrors().toString());
         return new ResponseEntity<>(tinyWeatherResponse,e.getHttpStatus());

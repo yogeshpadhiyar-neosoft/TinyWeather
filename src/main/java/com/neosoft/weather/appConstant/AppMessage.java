@@ -22,5 +22,6 @@ public class AppMessage {
     public static final String NF_BASEURL_PROP = "Properties 'base_url' not found in properties file.";
     public static final String NF_DAY_PROP = "Properties field 'startday' or 'endday ' missing.";
     public static final String DESCRIPTION = "Next Three day average Temperature and Humidity";
-    public static final String FAIL_DESCRIPTION = "Disable to find Next Three day average Temperature and Humidity due to some error";
+    public static final String FAIL_DESCRIPTION = "Disable to find Next Three day average Temperature and Humidity due to some error is like :";
+    public static final String INTERNET_ERROR = "Unable to reach Internet connection error. please check internet.";
 }
